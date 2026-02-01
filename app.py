@@ -82,6 +82,30 @@ def adiciona_cargo_frequente():
 
     return cargo_frequente
 
+def cria_colunas_valores():
+    coluna1, coluna2, coluna3, coluna4 = st.columns(4)
+    coluna1.metric("Salário Médio", f"${salario_medio:,.0f}")
+    coluna2.metric("Salário Máximo", f"${salario_maximo:,.0f}")
+    coluna3.metric("Total de Registros", f"{total_registros:,}")
+    coluna4.metric("Cargo Frequente", cargo_frequente)
+
+def cria_grafico_maiores_salarios():
+    with coluna_grafico1:
+        if not df_filtrado.empty:
+            maiores_cargos = df_filtrado.groupby("cargo")["usd"].mean().nlargest(10).sort_values(ascending = True).reset_index()
+            grafico_cargos = px.bar(
+                maiores_cargos,
+                x = "usd",
+                y = "cargo",
+                orientation = "h",
+                title = "Os 10 Maiores Salários Médios",
+                labels = {"usd": "Média Salarial Anual (USD)", "cargo": ""}
+            )
+            grafico_cargos.update_layout(title_x = 0.1, yaxis = {"categoryorder": "total ascending"})
+            st.plotly_chart(grafico_cargos, use_container_width = True)
+        else:
+            st.warning("Nenhum dado para exibir no gráfico de cargos")
+
 # def adiciona_valores_filtro():
 #     if not df_filtrado.empty:
 #         salario_medio = df_filtrado["usd"].mean()
@@ -107,6 +131,9 @@ salario_medio = adiciona_valor_salario_medio()
 salario_maximo = adiciona_valor_salario_maximo()
 total_registros = adiciona_valor_total_registros()
 cargo_frequente = adiciona_cargo_frequente()
+cria_colunas_valores()
+coluna_grafico1, coluna_grafico2 = st.columns(2)
+cria_grafico_maiores_salarios()
 # if not df_filtrado.empty:
 #     salario_medio = df_filtrado["usd"].mean()
 #     salario_maximo = df_filtrado["usd"].max()
@@ -115,29 +142,29 @@ cargo_frequente = adiciona_cargo_frequente()
 # else:
 #     salario_medio, salario_mediano, salario_maximo, total_registros, cargo_frequente = 0, 0, 0, ""
 
-coluna1, coluna2, coluna3, coluna4 = st.columns(4)
-coluna1.metric("Salário Médio", f"${salario_medio:,.0f}")
-coluna2.metric("Salário Máximo", f"${salario_maximo:,.0f}")
-coluna3.metric("Total de Registros", f"{total_registros:,}")
-coluna4.metric("Cargo Frequente", cargo_frequente)
+# coluna1, coluna2, coluna3, coluna4 = st.columns(4)
+# coluna1.metric("Salário Médio", f"${salario_medio:,.0f}")
+# coluna2.metric("Salário Máximo", f"${salario_maximo:,.0f}")
+# coluna3.metric("Total de Registros", f"{total_registros:,}")
+# coluna4.metric("Cargo Frequente", cargo_frequente)
 
-coluna_grafico1, coluna_grafico2 = st.columns(2)
 
-with coluna_grafico1:
-    if not df_filtrado.empty:
-        maiores_cargos = df_filtrado.groupby("cargo")["usd"].mean().nlargest(10).sort_values(ascending = True).reset_index()
-        grafico_cargos = px.bar(
-            maiores_cargos,
-            x = "usd",
-            y = "cargo",
-            orientation = "h",
-            title = "Os 10 Maiores Salários Médios",
-            labels = {"usd": "Média Salarial Anual (USD)", "cargo": ""}
-        )
-        grafico_cargos.update_layout(title_x = 0.1, yaxis = {"categoryorder": "total ascending"})
-        st.plotly_chart(grafico_cargos, use_container_width = True)
-    else:
-        st.warning("Nenhum dado para exibir no gráfico de cargos")
+
+# with coluna_grafico1:
+#     if not df_filtrado.empty:
+#         maiores_cargos = df_filtrado.groupby("cargo")["usd"].mean().nlargest(10).sort_values(ascending = True).reset_index()
+#         grafico_cargos = px.bar(
+#             maiores_cargos,
+#             x = "usd",
+#             y = "cargo",
+#             orientation = "h",
+#             title = "Os 10 Maiores Salários Médios",
+#             labels = {"usd": "Média Salarial Anual (USD)", "cargo": ""}
+#         )
+#         grafico_cargos.update_layout(title_x = 0.1, yaxis = {"categoryorder": "total ascending"})
+#         st.plotly_chart(grafico_cargos, use_container_width = True)
+#     else:
+#         st.warning("Nenhum dado para exibir no gráfico de cargos")
 
 with coluna_grafico2:
     if not df_filtrado.empty:
