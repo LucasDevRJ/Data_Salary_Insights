@@ -5,11 +5,14 @@ from streamlit import title
 
 # Configuração da página
 # Define o título da página, o ícone e o layout para ocupar a lagura inteira
-st.set_page_config(
-    page_title = "Dashboard de Salários na Área de Dados",
-    page_icon = "📊",
-    layout = "wide"
-)
+def configura_pagina():
+    st.set_page_config(
+        page_title = "Dashboard de Salários na Área de Dados",
+        page_icon = "📊",
+        layout = "wide"
+    )
+
+configura_pagina()
 
 # Armazenamento dos dados e leitura
 df = pd.read_csv("https://raw.githubusercontent.com/vqrca/dashboard_salarios_dados/refs/heads/main/dados-imersao-final.csv")
