@@ -21,27 +21,19 @@ def cria_painel_filtro():
     # Cria os filtros de pesquisa
     st.sidebar.header("Filtros Disponíveis 🔎")
 
+def programa_filtro(tipo_filtro, nome_filtro):
+    # Programa filtro para o ano
+    valores_disponiveis = sorted(df[tipo_filtro].unique())
+    valores_selecionados = st.sidebar.multiselect(nome_filtro, valores_disponiveis, default = valores_disponiveis)
+    return valores_selecionados
+
 configura_pagina()
 df = armazena_dados()
 cria_painel_filtro()
-
-
-
-# Programa filtro para o ano
-anos_disponiveis = sorted(df["ano"].unique())
-anos_selecionados = st.sidebar.multiselect("Ano", anos_disponiveis, default = anos_disponiveis)
-
-# Programa filtros para senioridade
-senioridades_disponiveis = sorted(df["senioridade"].unique())
-senioridades_selecionadas = st.sidebar.multiselect("Senioridade", senioridades_disponiveis, default = senioridades_disponiveis)
-
-# Programa filtro por tipo de contrato
-contratos_disponiveis = sorted(df["contrato"].unique())
-contratos_selecionados = st.sidebar.multiselect("Tipo de Contrato", contratos_disponiveis, default = contratos_disponiveis)
-
-# Programa filtro pelo tamanho da empresa
-tamanhos_disponiveis = sorted(df["tamanho_empresa"].unique())
-tamanhos_selecionados = st.sidebar.multiselect("Tamanho da Empresa", tamanhos_disponiveis, default = tamanhos_disponiveis)
+anos_selecionados = programa_filtro("ano", "Ano")
+senioridades_selecionadas = programa_filtro("senioridade", "Senioridade")
+contratos_selecionados = programa_filtro("contrato", "Tipo de Contrato")
+tamanhos_selecionados = programa_filtro("tamanho_empresa", "Tamanho da Empresa")
 
 # Programar a filtragem baseado nos valores selecionados pelo usuário
 df_filtrado = df[
