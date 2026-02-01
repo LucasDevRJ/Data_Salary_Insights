@@ -12,10 +12,14 @@ def configura_pagina():
         layout = "wide"
     )
 
-configura_pagina()
-
 # Armazenamento dos dados e leitura
-df = pd.read_csv("https://raw.githubusercontent.com/vqrca/dashboard_salarios_dados/refs/heads/main/dados-imersao-final.csv")
+
+def armazena_dados():
+    return pd.read_csv("https://raw.githubusercontent.com/vqrca/dashboard_salarios_dados/refs/heads/main/dados-imersao-final.csv")
+
+configura_pagina()
+df = armazena_dados()
+
 
 # Cria os filtros de pesquisa
 st.sidebar.header("Filtros Disponíveis 🔎")
