@@ -21,27 +21,31 @@ def cria_painel_filtro():
     # Cria os filtros de pesquisa
     st.sidebar.header("Filtros Disponíveis 🔎")
 
-def programa_filtro(tipo_filtro, nome_filtro):
+def cria_filtro(tipo_filtro, nome_filtro):
     # Programa filtro para o ano
     valores_disponiveis = sorted(df[tipo_filtro].unique())
     valores_selecionados = st.sidebar.multiselect(nome_filtro, valores_disponiveis, default = valores_disponiveis)
     return valores_selecionados
 
+def programa_filtro():
+    # Programar a filtragem baseado nos valores selecionados pelo usuário
+    df_filtrado = df[
+        (df["ano"].isin(anos_selecionados)) &
+        (df["senioridade"].isin(senioridades_selecionadas)) &
+        (df["contrato"].isin(contratos_selecionados)) &
+        (df["tamanho_empresa"].isin(tamanhos_selecionados))
+    ]
+    return df_filtrado
+
 configura_pagina()
 df = armazena_dados()
 cria_painel_filtro()
-anos_selecionados = programa_filtro("ano", "Ano")
-senioridades_selecionadas = programa_filtro("senioridade", "Senioridade")
-contratos_selecionados = programa_filtro("contrato", "Tipo de Contrato")
-tamanhos_selecionados = programa_filtro("tamanho_empresa", "Tamanho da Empresa")
+anos_selecionados = cria_filtro("ano", "Ano")
+senioridades_selecionadas = cria_filtro("senioridade", "Senioridade")
+contratos_selecionados = cria_filtro("contrato", "Tipo de Contrato")
+tamanhos_selecionados = cria_filtro("tamanho_empresa", "Tamanho da Empresa")
+df_filtrado = programa_filtro()
 
-# Programar a filtragem baseado nos valores selecionados pelo usuário
-df_filtrado = df[
-    (df["ano"].isin(anos_selecionados)) &
-    (df["senioridade"].isin(senioridades_selecionadas)) &
-    (df["contrato"].isin(contratos_selecionados)) &
-    (df["tamanho_empresa"].isin(tamanhos_selecionados))
-]
 
 # Conteúdo explicativo sobre a aplicação
 st.title("📈 Dashboard de Análise de Salários na Área de Dados 🎲")
