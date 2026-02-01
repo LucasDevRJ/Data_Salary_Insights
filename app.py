@@ -17,12 +17,15 @@ def configura_pagina():
 def armazena_dados():
     return pd.read_csv("https://raw.githubusercontent.com/vqrca/dashboard_salarios_dados/refs/heads/main/dados-imersao-final.csv")
 
+def cria_painel_filtro():
+    # Cria os filtros de pesquisa
+    st.sidebar.header("Filtros Disponíveis 🔎")
+
 configura_pagina()
 df = armazena_dados()
+cria_painel_filtro()
 
 
-# Cria os filtros de pesquisa
-st.sidebar.header("Filtros Disponíveis 🔎")
 
 # Programa filtro para o ano
 anos_disponiveis = sorted(df["ano"].unique())
