@@ -50,6 +50,47 @@ def adiciona_conteudo(conteudo):
             # Análise Visual com Plotly
             st.subheader("Gráficos")
 
+def adiciona_valor_salario_medio():
+    if not df_filtrado.empty:
+        salario_medio = df_filtrado["usd"].mean()
+    else:
+        salario_medio = 0.0
+
+    return salario_medio
+
+def adiciona_valor_salario_maximo():
+    if not df_filtrado.empty:
+        salario_maximo = df_filtrado["usd"].max()
+    else:
+        salario_maximo = 0.0
+
+    return salario_maximo
+
+def adiciona_valor_total_registros():
+    if not df_filtrado.empty:
+        total_registros = df_filtrado.shape[0]
+    else:
+        total_registros = 0
+
+    return total_registros
+
+def adiciona_cargo_frequente():
+    if not df_filtrado.empty:
+        cargo_frequente = df_filtrado["cargo"].mode()[0]
+    else:
+        cargo_frequente = ""
+
+    return cargo_frequente
+
+# def adiciona_valores_filtro():
+#     if not df_filtrado.empty:
+#         salario_medio = df_filtrado["usd"].mean()
+#         salario_maximo = df_filtrado["usd"].max()
+#         total_registros = df_filtrado.shape[0]
+#         cargo_frequente = df_filtrado["cargo"].mode()[0]
+#     else:
+#         salario_medio, salario_mediano, salario_maximo, total_registros, cargo_frequente = 0, 0, 0, ""
+
 
 configura_pagina()
 df = armazena_dados()
@@ -62,23 +103,23 @@ df_filtrado = programa_filtro()
 adiciona_conteudo("explicativo")
 adiciona_conteudo("kpi")
 adiciona_conteudo("analise")
-
-
-if not df_filtrado.empty:
-    salario_medio = df_filtrado["usd"].mean()
-    salario_maximo = df_filtrado["usd"].max()
-    total_registros = df_filtrado.shape[0]
-    cargo_frequente = df_filtrado["cargo"].mode()[0]
-else:
-    salario_medio, salario_mediano, salario_maximo, total_registros, cargo_frequente = 0, 0, 0, ""
+salario_medio = adiciona_valor_salario_medio()
+salario_maximo = adiciona_valor_salario_maximo()
+total_registros = adiciona_valor_total_registros()
+cargo_frequente = adiciona_cargo_frequente()
+# if not df_filtrado.empty:
+#     salario_medio = df_filtrado["usd"].mean()
+#     salario_maximo = df_filtrado["usd"].max()
+#     total_registros = df_filtrado.shape[0]
+#     cargo_frequente = df_filtrado["cargo"].mode()[0]
+# else:
+#     salario_medio, salario_mediano, salario_maximo, total_registros, cargo_frequente = 0, 0, 0, ""
 
 coluna1, coluna2, coluna3, coluna4 = st.columns(4)
 coluna1.metric("Salário Médio", f"${salario_medio:,.0f}")
 coluna2.metric("Salário Máximo", f"${salario_maximo:,.0f}")
-coluna3.metric("Total de Registros", f"${total_registros:,}")
+coluna3.metric("Total de Registros", f"{total_registros:,}")
 coluna4.metric("Cargo Frequente", cargo_frequente)
-
-
 
 coluna_grafico1, coluna_grafico2 = st.columns(2)
 
