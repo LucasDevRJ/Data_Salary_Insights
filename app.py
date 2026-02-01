@@ -37,6 +37,20 @@ def programa_filtro():
     ]
     return df_filtrado
 
+def adiciona_conteudo(conteudo):
+    match conteudo:
+        case "explicativo":
+            # Conteúdo explicativo sobre a aplicação
+            st.title("📈 Dashboard de Análise de Salários na Área de Dados 🎲")
+            st.markdown("Explore os dados salariais na área de dados nos últimos anos. Utilize os filtros à esquerda para refinar sua análise.")
+        case "kpi":
+            # Métrica Principal KPI
+            st.markdown("Métricas gerais (Salario Anual em USD)")
+        case "analise":
+            # Análise Visual com Plotly
+            st.subheader("Gráficos")
+
+
 configura_pagina()
 df = armazena_dados()
 cria_painel_filtro()
@@ -45,14 +59,10 @@ senioridades_selecionadas = cria_filtro("senioridade", "Senioridade")
 contratos_selecionados = cria_filtro("contrato", "Tipo de Contrato")
 tamanhos_selecionados = cria_filtro("tamanho_empresa", "Tamanho da Empresa")
 df_filtrado = programa_filtro()
+adiciona_conteudo("explicativo")
+adiciona_conteudo("kpi")
+adiciona_conteudo("analise")
 
-
-# Conteúdo explicativo sobre a aplicação
-st.title("📈 Dashboard de Análise de Salários na Área de Dados 🎲")
-st.markdown("Explore os dados salariais na área de dados nos últimos anos. Utilize os filtros à esquerda para refinar sua análise.")
-
-# Métrica Principal KPI
-st.markdown("Métricas gerais (Salario Anual em USD)")
 
 if not df_filtrado.empty:
     salario_medio = df_filtrado["usd"].mean()
@@ -68,8 +78,7 @@ coluna2.metric("Salário Máximo", f"${salario_maximo:,.0f}")
 coluna3.metric("Total de Registros", f"${total_registros:,}")
 coluna4.metric("Cargo Frequente", cargo_frequente)
 
-# Análise Visual com Plotly
-st.subheader("Gráficos")
+
 
 coluna_grafico1, coluna_grafico2 = st.columns(2)
 
