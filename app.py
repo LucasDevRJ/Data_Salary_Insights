@@ -39,37 +39,20 @@ def adiciona_conteudo(conteudo):
         case "analise":
             st.subheader("Gráficos")
 
-def adiciona_valor_salario_medio():
+def adiciona_valor(valor):
     if not df_filtrado.empty:
-        salario_medio = df_filtrado["usd"].mean()
-    else:
-        salario_medio = 0.0
+        match valor:
+            case 1:
+                return df_filtrado["usd"].mean()
+            case 2:
+                return df_filtrado["usd"].max()
+            case 3:
+                return df_filtrado.shape[0]
+            case 4:
+                return df_filtrado["cargo"].mode()[0]
+            case _:
+                return 0
 
-    return salario_medio
-
-def adiciona_valor_salario_maximo():
-    if not df_filtrado.empty:
-        salario_maximo = df_filtrado["usd"].max()
-    else:
-        salario_maximo = 0.0
-
-    return salario_maximo
-
-def adiciona_valor_total_registros():
-    if not df_filtrado.empty:
-        total_registros = df_filtrado.shape[0]
-    else:
-        total_registros = 0
-
-    return total_registros
-
-def adiciona_cargo_frequente():
-    if not df_filtrado.empty:
-        cargo_frequente = df_filtrado["cargo"].mode()[0]
-    else:
-        cargo_frequente = ""
-
-    return cargo_frequente
 
 def cria_colunas_valores():
     coluna1, coluna2, coluna3, coluna4 = st.columns(4)
@@ -161,10 +144,10 @@ df_filtrado = programa_filtro()
 adiciona_conteudo("explicativo")
 adiciona_conteudo("kpi")
 adiciona_conteudo("analise")
-salario_medio = adiciona_valor_salario_medio()
-salario_maximo = adiciona_valor_salario_maximo()
-total_registros = adiciona_valor_total_registros()
-cargo_frequente = adiciona_cargo_frequente()
+salario_medio = adiciona_valor(1)
+salario_maximo = adiciona_valor(2)
+total_registros = adiciona_valor(3)
+cargo_frequente = adiciona_valor(4)
 cria_colunas_valores()
 coluna_grafico1, coluna_grafico2 = st.columns(2)
 coluna_grafico3, coluna_grafico4 = st.columns(2)
